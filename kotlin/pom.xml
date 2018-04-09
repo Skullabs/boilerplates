@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.skullabs.boilerplates</groupId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <artifactId>kotlin-1.2</artifactId>
     <name>Kotlin Simplified Project</name>
     <packaging>pom</packaging>
@@ -42,6 +42,7 @@
         <!-- Plugin's Versions -->
         <version.compiler.plugin>3.7.0</version.compiler.plugin>
         <version.resources.plugin>2.6</version.resources.plugin>
+        <version.jar.plugin>3.0.2</version.jar.plugin>
         <version.source.plugin>2.3</version.source.plugin>
         <version.javadoc.plugin>2.10.1</version.javadoc.plugin>
         <version.surfire.plugin>2.19.1</version.surfire.plugin>
@@ -58,11 +59,13 @@
         <config.dir.output>${project.basedir}/output</config.dir.output>
         <config.dir.web>${project.basedir}/webapp</config.dir.web>
         <config.skip.tests>false</config.skip.tests>
-        <config.skip.tests.unit>${config.skip.tests}</config.skip.tests.unit>
-        <config.skip.tests.integration>${config.skip.tests}</config.skip.tests.integration>
         <config.encoding>UTF-8</config.encoding>
         <config.encoding.source>${config.encoding}</config.encoding.source>
         <config.encoding.resources>${config.encoding}</config.encoding.resources>
+        <project.build.sourceEncoding>${config.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${config.encoding}</project.reporting.outputEncoding>
+        <config.kotlin.jvmTarget>1.8</config.kotlin.jvmTarget>
+        <!-- Enforcing encoding -->
         <project.build.sourceEncoding>${config.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${config.encoding}</project.reporting.outputEncoding>
     </properties>
@@ -121,12 +124,6 @@
                 <version>${junit.vintage.version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${version.mockito}</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -136,6 +133,7 @@
         <directory>${config.dir.output}</directory>
         <outputDirectory>${config.dir.output}/classes</outputDirectory>
         <testOutputDirectory>${config.dir.output}/test-classes</testOutputDirectory>
+
         <resources>
             <resource>
                 <directory>${config.dir.resource}</directory>
@@ -158,6 +156,7 @@
                 </excludes>
             </resource>
         </resources>
+
         <testResources>
             <testResource>
                 <directory>${config.dir.test.resource}</directory>
@@ -188,6 +187,10 @@
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <version>${version.kotlin}</version>
+
+                <configuration>
+                    <jvmTarget>${config.kotlin.jvmTarget}</jvmTarget>
+                </configuration>
 
                 <executions>
                     <execution>
@@ -233,11 +236,16 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${version.surfire.plugin}</version>
                 <configuration>
+                    <skip>${config.skip.tests}</skip>
                     <includes>
                         <include>**/Test*.java</include>
                         <include>**/*Test.java</include>
                         <include>**/*Tests.java</include>
                         <include>**/*TestCase.java</include>
+                        <include>**/Test*.kt</include>
+                        <include>**/*Test.kt</include>
+                        <include>**/*Tests.kt</include>
+                        <include>**/*TestCase.kt</include>
                     </includes>
                 </configuration>
                 <dependencies>
@@ -250,10 +258,26 @@
             </plugin>
 
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>${version.compiler.plugin}</version>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <inherited>true</inherited>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>${version.jar.plugin}</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -263,9 +287,6 @@
                 </configuration>
             </plugin>
         </plugins>
-
-
-
     </build>
 
     <profiles>
