@@ -6,6 +6,7 @@
     <version>1.0.0</version>
     <artifactId>kotlin-1.2</artifactId>
     <name>Kotlin Simplified Project</name>
+    <description>Kotlin Simplified Project</description>
     <packaging>pom</packaging>
 
     <url>https://github.com/Skullabs/boilerplates</url>
