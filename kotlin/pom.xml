@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.skullabs.boilerplates</groupId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <artifactId>kotlin-1.2</artifactId>
     <name>Kotlin Simplified Project</name>
     <description>Kotlin Simplified Project</description>
@@ -156,6 +156,16 @@
                     <exclude>**/*.kt</exclude>
                 </excludes>
             </resource>
+            <resource>
+                <directory>${config.dir.output}/generated-sources/kapt/compile</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                    <exclude>**/*.kt</exclude>
+                </excludes>
+            </resource>
         </resources>
 
         <testResources>
@@ -214,7 +224,7 @@
                             <sourceDirs>
                                 <sourceDir>${config.dir.test.source}</sourceDir>
                             </sourceDirs>
-                            <output>${config.dir.test.source.generated}</output>
+                            <testOutput>${config.dir.test.source.generated}</testOutput>
                         </configuration>
                     </execution>
 
@@ -222,12 +232,26 @@
                         <id>compile</id>
                         <goals> <goal>compile</goal> </goals>
                         <phase>compile</phase>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${config.dir.source}</sourceDir>
+                                <sourceDir>${config.dir.source.generated}</sourceDir>
+                                <sourceDir>${config.dir.output}/generated-sources/kapt/compile</sourceDir>
+                            </sourceDirs>
+                        </configuration>
                     </execution>
 
                     <execution>
                         <id>test-compile</id>
                         <goals> <goal>test-compile</goal> </goals>
                         <phase>test-compile</phase>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${config.dir.test.source}</sourceDir>
+                                <sourceDir>${config.dir.test.source.generated}</sourceDir>
+                                <sourceDir>${config.dir.output}/generated-sources/kapt/test</sourceDir>
+                            </sourceDirs>
+                        </configuration>
                     </execution>
 
                 </executions>
