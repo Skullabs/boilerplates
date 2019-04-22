@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.skullabs.boilerplates</groupId>
-    <version>1.0.1</version>
-    <artifactId>kotlin-1.2</artifactId>
+    <version>1.1.0</version>
+    <artifactId>kotlin</artifactId>
     <name>Kotlin Simplified Project</name>
     <description>Kotlin Simplified Project</description>
     <packaging>pom</packaging>
@@ -35,7 +35,7 @@
 
     <properties>
         <!-- Dependencies Versions -->
-        <version.kotlin>1.2.30</version.kotlin>
+        <version.kotlin>1.3.30</version.kotlin>
         <version.junit.platform>1.1.0</version.junit.platform>
         <version.junit.jupiter>5.1.0</version.junit.jupiter>
         <version.lombok>1.16.20</version.lombok>
@@ -229,7 +229,7 @@
                     </execution>
 
                     <execution>
-                        <id>compile</id>
+                        <id>default-compile</id>
                         <goals> <goal>compile</goal> </goals>
                         <phase>compile</phase>
                         <configuration>
@@ -242,7 +242,7 @@
                     </execution>
 
                     <execution>
-                        <id>test-compile</id>
+                        <id>default-testCompile</id>
                         <goals> <goal>test-compile</goal> </goals>
                         <phase>test-compile</phase>
                         <configuration>
@@ -294,6 +294,16 @@
                     <execution>
                         <id>default-testCompile</id>
                         <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>java-compile</id>
+                        <phase>compile</phase>
+                        <goals><goal>compile</goal></goals>
+                    </execution>
+                    <execution>
+                        <id>java-testCompile</id>
+                        <phase>test-compile</phase>
+                        <goals><goal>testCompile</goal></goals>
                     </execution>
                 </executions>
             </plugin>
